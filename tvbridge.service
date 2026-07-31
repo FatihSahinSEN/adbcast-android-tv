@@ -1,0 +1,15 @@
+[Unit]
+Description=ADB TV Bridge Connector Server
+After=network.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/tvbridge
+ExecStart=/opt/tvbridge/adb-connector-server
+Restart=always
+RestartSec=3s
+User=root
+
+[Install]
+WantedBy=multi-user.target
