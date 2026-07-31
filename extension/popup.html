@@ -405,6 +405,15 @@
       <div id="noWebPageNotice" style="display: none; text-align: center; padding: 10px 4px; color: var(--text-muted); font-size: 11px;">
         ⚠️ Open an active webpage or YouTube video to cast.
       </div>
+
+      <!-- Sniffed Stream Links Section -->
+      <div id="detectedStreamsSection" style="margin-top: 10px; border-top: 1px dashed var(--border-color); padding-top: 8px; display: none;">
+        <div class="card-header" style="font-size: 10px; text-transform: uppercase; color: var(--purple-accent); margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between;">
+          <span>🎬 Detected Stream Links (M3U8 / MP4)</span>
+          <button id="resniffStreamsBtn" style="background: none; border: none; color: var(--primary-accent); font-size: 10px; cursor: pointer; text-decoration: underline;">🔄 Rescan Page</button>
+        </div>
+        <div id="detectedStreamsList" class="media-list"></div>
+      </div>
     </div>
   </div>
 

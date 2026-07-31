@@ -542,6 +542,12 @@ func main() {
 						"-d", targetURL,
 						"-n", "com.google.android.youtube.tv/com.google.android.apps.youtube.tv.activity.ShellActivity",
 					}
+				} else if intentType == "video" {
+					args = []string{"-s", tDev, "shell", "am", "start",
+						"-a", "android.intent.action.VIEW",
+						"-d", targetURL,
+						"-t", "video/*",
+					}
 				} else {
 					if pkg != "" && pkg != "default" {
 						args = []string{"-s", tDev, "shell", "am", "start",

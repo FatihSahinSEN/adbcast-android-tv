@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (browserSection) browserSection.style.display = 'block';
       if (youtubeSection) youtubeSection.style.display = 'none';
       if (noWebPageNotice) noWebPageNotice.style.display = 'none';
+      sniffPageVideoStreams();
     } else {
       if (youtubeSection) youtubeSection.style.display = 'none';
       if (browserSection) browserSection.style.display = 'none';
@@ -825,4 +826,89 @@ document.addEventListener('DOMContentLoaded', () => {
       chrome.tabs.create({ url: 'https://www.iyc.com.tr/' });
     });
   }
+
+  const resniffStreamsBtn = document.getElementById('resniffStreamsBtn');
+  if (resniffStreamsBtn) {
+    resniffStreamsBtn.addEventListener('click', () => {
+      sniffPageVideoStreams();
+    });
+  }
 });
+
+async function sniffPageVideoStreams() {
+  if (!currentTab || !currentTab.id || !currentTab.url || !currentTab.url.startsWith("http")) return;
+  const section = document.getElementById('detectedStreamsSection');
+  const container = document.getElementById('detectedStreamsList');
+  if (!section || !container) return;
+
+  try {
+    const results = await chrome.scripting.executeScript({
+      target: { tabId: currentTab.id },
+      func: () => {
+        const found = new Set();
+        // 1. Check video elements src and source elements
+        document.querySelectorAll('video, video source').forEach(el => {
+          if (el.src && !el.src.startsWith('blob:')) found.add(el.src);
+          if (el.currentSrc && !el.currentSrc.startsWith('blob:')) found.add(el.currentSrc);
+        });
+
+        // 2. Check Performance Resource entries for HLS/MP4 streams loaded by blob players
+        if (window.performance && performance.getEntriesByType) {
+          const res = performance.getEntriesByType('resource');
+          res.forEach(r => {
+            const u = r.name;
+            if (u && (u.includes('.m3u8') || u.includes('.mp4') || u.includes('.mpd') || u.includes('.webm')) && !u.startsWith('blob:')) {
+              found.add(u);
+            }
+          });
+        }
+        return Array.from(found);
+      }
+    });
+
+    if (results && results[0] && results[0].result && results[0].result.length > 0) {
+      const streams = results[0].result;
+      container.innerHTML = '';
+      section.style.display = 'block';
+
+      streams.forEach((streamUrl, idx) => {
+        const item = document.createElement('div');
+        item.className = 'media-item';
+
+        const isHLS = streamUrl.includes('.m3u8');
+        const ext = isHLS ? 'HLS Stream (.m3u8)' : 'Video Stream (.mp4)';
+        const displayTitle = streamUrl.split('?')[0].split('/').pop() || `Stream ${idx + 1}`;
+
+        item.innerHTML = `
+          <div class="media-info" title="${streamUrl}">
+            <span class="media-badge ${isHLS ? 'badge-image' : 'badge-video'}">${ext}</span>
+            <span style="font-size: 10px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${displayTitle}</span>
+          </div>
+          <button class="cast-btn btn-media" style="padding: 3px 6px; font-size: 9px; width: auto; font-weight: bold;">
+            ▶ Cast Stream
+          </button>
+        `;
+
+        const castBtn = item.querySelector('button');
+        castBtn.addEventListener('click', async () => {
+          const statusDiv = document.getElementById('status');
+          if (statusDiv) statusDiv.innerText = "Launching Native TV Video Player...";
+          try {
+            let res = await fetch(`${SERVER_URL}/launch_intent?type=video&url=${encodeURIComponent(streamUrl)}`);
+            if (res.ok) {
+              if (statusDiv) statusDiv.innerHTML = '<span class="success-msg">✅ Playing on Native TV Video Player!</span>';
+            } else {
+              if (statusDiv) statusDiv.innerHTML = '<span class="error-msg">❌ Launch failed! Check ADB.</span>';
+            }
+          } catch (e) {
+            if (statusDiv) statusDiv.innerHTML = '<span class="error-msg">❌ Server connection error!</span>';
+          }
+        });
+
+        container.appendChild(item);
+      });
+    }
+  } catch (e) {
+    console.warn('Stream sniffer notice:', e);
+  }
+}
