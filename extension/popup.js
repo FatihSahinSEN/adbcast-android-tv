@@ -845,11 +845,24 @@ async function sniffPageVideoStreams() {
     const results = await chrome.scripting.executeScript({
       target: { tabId: currentTab.id },
       func: () => {
-        const found = new Set();
+        const isValidVideoUrl = (url) => {
+          if (!url || typeof url !== 'string') return false;
+          if (url.startsWith('blob:') || url.startsWith('data:')) return false;
+
+          // Exclude static web assets
+          if (/\.(webmanifest|json|js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)(\?|$)/i.test(url)) {
+            return false;
+          }
+
+          // Strict match video stream extensions
+          return /\.(m3u8|mp4|mpd|ts|mkv|webm|flv|m4s)(\?|$)/i.test(url) ||
+                 /(m3u8_index|playlist\.m3u8|master\.m3u8|\/hls\/|\/dash\/)/i.test(url);
+        };
+
         // 1. Check video elements src and source elements
         document.querySelectorAll('video, video source').forEach(el => {
-          if (el.src && !el.src.startsWith('blob:')) found.add(el.src);
-          if (el.currentSrc && !el.currentSrc.startsWith('blob:')) found.add(el.currentSrc);
+          if (el.src && isValidVideoUrl(el.src)) found.add(el.src);
+          if (el.currentSrc && isValidVideoUrl(el.currentSrc)) found.add(el.currentSrc);
         });
 
         // 2. Check Performance Resource entries for HLS/MP4 streams loaded by blob players
@@ -857,7 +870,7 @@ async function sniffPageVideoStreams() {
           const res = performance.getEntriesByType('resource');
           res.forEach(r => {
             const u = r.name;
-            if (u && (u.includes('.m3u8') || u.includes('.mp4') || u.includes('.mpd') || u.includes('.webm')) && !u.startsWith('blob:')) {
+            if (isValidVideoUrl(u)) {
               found.add(u);
             }
           });
