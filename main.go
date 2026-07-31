@@ -521,6 +521,8 @@ func main() {
 		intentType := r.URL.Query().Get("type") // "youtube" veya "browser"
 		targetURL := r.URL.Query().Get("url")
 		pkg := r.URL.Query().Get("package")
+		fullscreenParam := r.URL.Query().Get("fullscreen")
+		isFullscreen := fullscreenParam == "true" || fullscreenParam == "1"
 
 		if targetURL == "" {
 			http.Error(w, "URL parametresi eksik", http.StatusBadRequest)
@@ -555,11 +557,22 @@ func main() {
 					}
 				}
 				runADBCommand(args...)
+
+				if isFullscreen {
+					// 1. Android Immersive Fullscreen modu uygula (Status/nav bar gizleme)
+					runADBCommand("-s", tDev, "shell", "settings", "put", "global", "policy_control", "immersive.full=*")
+
+					// 2. Tarayıcının açılmasını bekleyip F11 (Keycode 133) gönder
+					go func(device string) {
+						time.Sleep(800 * time.Millisecond)
+						runADBCommand("-s", device, "shell", "input", "keyevent", "133")
+					}(tDev)
+				}
 			}(dev)
 		}
 		wg.Wait()
 
-		fmt.Printf("[+] Yönlendirme Başarılı (%s - %d TV): %s\n", intentType, len(targetDevs), targetURL)
+		fmt.Printf("[+] Yönlendirme Başarılı (%s - %d TV - Fullscreen: %v): %s\n", intentType, len(targetDevs), isFullscreen, targetURL)
 		w.Write([]byte("OK"))
 	})
 

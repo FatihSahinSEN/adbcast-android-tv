@@ -768,12 +768,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isBackendOnline) return;
       const statusDiv = document.getElementById('status');
       const selectedPkg = document.getElementById('browserSelect').value;
-      if (statusDiv) statusDiv.innerText = "Launching TV Browser...";
+      const isFullscreen = document.getElementById('fullscreenCheckbox')?.checked || false;
+      if (statusDiv) statusDiv.innerText = isFullscreen ? "Launching TV Browser (Fullscreen)..." : "Launching TV Browser...";
 
       try {
-        let res = await fetch(`${SERVER_URL}/launch_intent?type=browser&url=${encodeURIComponent(currentTab ? currentTab.url : '')}&package=${encodeURIComponent(selectedPkg)}`);
+        let res = await fetch(`${SERVER_URL}/launch_intent?type=browser&url=${encodeURIComponent(currentTab ? currentTab.url : '')}&package=${encodeURIComponent(selectedPkg)}&fullscreen=${isFullscreen}`);
         if (res.ok) {
-          if (statusDiv) statusDiv.innerHTML = '<span class="success-msg">✅ Page opened on TV!</span>';
+          if (statusDiv) statusDiv.innerHTML = `<span class="success-msg">✅ Page opened on TV${isFullscreen ? ' (Fullscreen)' : ''}!</span>`;
         } else {
           if (statusDiv) statusDiv.innerHTML = '<span class="error-msg">❌ Launch failed! Check ADB connection.</span>';
         }

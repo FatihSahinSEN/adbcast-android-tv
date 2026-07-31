@@ -253,7 +253,7 @@ The server configuration file is automatically created in the workspace root:
 | `/get_devices` | `GET` | Returns saved TV devices list |
 | `/select_devices` | `POST` | Sets active target TV IP list (`?ips=IP1,IP2`) |
 | `/get_browsers` | `GET` | Returns list of installed TV web browsers |
-| `/launch_intent` | `GET` | Launches Web URL or YouTube on target TVs |
+| `/launch_intent` | `GET` | Launches Web URL or YouTube on target TVs (`?type=browser&url=...&package=...&fullscreen=true`) |
 | `/cast_media` | `POST` | Transfers photos/videos to TV & starts playback |
 | `/list_uploaded_media`| `GET` | Lists active uploaded media files |
 | `/play_media` | `GET` | Plays specific file on target TVs (`?filename=...`) |
