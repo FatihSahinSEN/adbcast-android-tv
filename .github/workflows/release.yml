@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build Multi-Platform Executables
@@ -55,7 +58,7 @@ jobs:
           cd extension && zip -r ../ADBCast-Chrome-Extension.zip manifest.json popup.html popup.js icon.png icon.svg README.md
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             ADBCast-Windows-amd64.zip
