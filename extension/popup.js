@@ -918,7 +918,8 @@ async function sniffPageVideoStreams() {
           const statusDiv = document.getElementById('status');
           if (statusDiv) statusDiv.innerText = "Launching Native TV Video Player...";
           try {
-            let res = await fetch(`${SERVER_URL}/launch_intent?type=video&url=${encodeURIComponent(streamUrl)}`);
+            const pageRef = currentTab ? currentTab.url : '';
+            let res = await fetch(`${SERVER_URL}/launch_intent?type=video&url=${encodeURIComponent(streamUrl)}&referer=${encodeURIComponent(pageRef)}`);
             if (res.ok) {
               if (statusDiv) statusDiv.innerHTML = '<span class="success-msg">✅ Playing on Native TV Video Player!</span>';
             } else {

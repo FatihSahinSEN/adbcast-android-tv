@@ -7,6 +7,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"net/url"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -518,9 +519,10 @@ func main() {
 	// 4. Genel Intent / URL Gönderimi (YouTube veya Web)
 	http.HandleFunc("/launch_intent", func(w http.ResponseWriter, r *http.Request) {
 		enableCORS(&w)
-		intentType := r.URL.Query().Get("type") // "youtube" veya "browser"
+		intentType := r.URL.Query().Get("type") // "youtube", "browser", "video"
 		targetURL := r.URL.Query().Get("url")
 		pkg := r.URL.Query().Get("package")
+		referer := r.URL.Query().Get("referer")
 		fullscreenParam := r.URL.Query().Get("fullscreen")
 		isFullscreen := fullscreenParam == "true" || fullscreenParam == "1"
 
@@ -543,10 +545,17 @@ func main() {
 						"-n", "com.google.android.youtube.tv/com.google.android.apps.youtube.tv.activity.ShellActivity",
 					}
 				} else if intentType == "video" {
+					if referer == "" {
+						if u, err := url.Parse(targetURL); err == nil {
+							referer = fmt.Sprintf("%s://%s/", u.Scheme, u.Host)
+						}
+					}
+					headerExtra := fmt.Sprintf("Referer:%s,User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36", referer)
 					args = []string{"-s", tDev, "shell", "am", "start",
 						"-a", "android.intent.action.VIEW",
 						"-d", targetURL,
 						"-t", "video/*",
+						"--esa", "android.intent.extra.headers", headerExtra,
 					}
 				} else {
 					if pkg != "" && pkg != "default" {
