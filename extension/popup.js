@@ -843,21 +843,23 @@ async function sniffPageVideoStreams() {
 
   try {
     const results = await chrome.scripting.executeScript({
-      target: { tabId: currentTab.id },
+      target: { tabId: currentTab.id, allFrames: true },
       func: () => {
         const isValidVideoUrl = (url) => {
           if (!url || typeof url !== 'string') return false;
           if (url.startsWith('blob:') || url.startsWith('data:')) return false;
 
           // Exclude static web assets
-          if (/\.(webmanifest|json|js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)(\?|$)/i.test(url)) {
+          if (/\.(webmanifest|json|js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|html|htm)(\?|$)/i.test(url)) {
             return false;
           }
 
-          // Strict match video stream extensions
-          return /\.(m3u8|mp4|mpd|ts|mkv|webm|flv|m4s)(\?|$)/i.test(url) ||
-                 /(m3u8_index|playlist\.m3u8|master\.m3u8|\/hls\/|\/dash\/)/i.test(url);
+          // Match video stream extensions & HLS/DASH URL patterns
+          return /\.(m3u8|mp4|mpd|ts|mkv|webm|flv|m4s)/i.test(url) ||
+                 /(m3u8|playlist|master|index-v\d+|\/hls\/|\/dash\/|\/stream\/)/i.test(url);
         };
+
+        const found = new Set();
 
         // 1. Check video elements src and source elements
         document.querySelectorAll('video, video source').forEach(el => {
@@ -879,8 +881,17 @@ async function sniffPageVideoStreams() {
       }
     });
 
-    if (results && results[0] && results[0].result && results[0].result.length > 0) {
-      const streams = results[0].result;
+    const allStreams = new Set();
+    if (results && Array.isArray(results)) {
+      results.forEach(frameResult => {
+        if (frameResult && frameResult.result && Array.isArray(frameResult.result)) {
+          frameResult.result.forEach(url => allStreams.add(url));
+        }
+      });
+    }
+
+    const streams = Array.from(allStreams);
+    if (streams.length > 0) {
       container.innerHTML = '';
       section.style.display = 'block';
 
