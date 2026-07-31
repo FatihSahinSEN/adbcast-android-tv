@@ -65,6 +65,15 @@ func initADBPath() {
 
 	if runtime.GOOS == "windows" {
 		adbPath = filepath.Join(execDir, "platform-tools-win64", "adb.exe")
+	} else if runtime.GOOS == "darwin" {
+		macADB := filepath.Join(execDir, "platform-tools-darwin", "adb")
+		if _, err := os.Stat(macADB); err == nil {
+			adbPath = macADB
+		} else if pathADB, err := exec.LookPath("adb"); err == nil {
+			adbPath = pathADB
+		} else {
+			adbPath = "adb"
+		}
 	} else {
 		adbPath = filepath.Join(execDir, "platform-tools-linux64", "adb")
 	}
@@ -1109,6 +1118,6 @@ func main() {
 	http.Handle("/media/", http.StripPrefix("/media/", http.FileServer(http.Dir("uploads"))))
 
 	listenPort := getServerPort()
-	fmt.Printf("[*] ADB Connector Server (Dynamic Context Router) Dinleniyor: http://127.0.0.1%s\n", listenPort)
+	fmt.Printf("[*] ADBCast Android TV Server (Dynamic Context Router) Dinleniyor: http://127.0.0.1%s\n", listenPort)
 	log.Fatal(http.ListenAndServe(listenPort, nil))
 }

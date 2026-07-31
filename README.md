@@ -1,8 +1,9 @@
 <p align="center">
-  <img src="assets/icon.svg" alt="ADB TV Bridge Connector Logo" width="128" height="128">
+  <img src="assets/icon.svg" alt="ADBCast Android TV" width="128" height="128">
 </p>
 
-<h1 align="center">ADB - AOSP TV Bridge Connector</h1>
+<h1 align="center">ADBCast Android TV</h1>
+<p align="center"><b>Control multiple Android TV devices from your browser using ADB—no TV app required.</b></p>
 
 <p align="center">
   <b>Dynamic Context Router & Multi-Device Cast Manager for Android TV / AOSP Devices</b>
@@ -13,21 +14,76 @@
   <a href="https://www.iyc.com.tr/"><img src="https://img.shields.io/badge/Website-iyc.com.tr-00ACC1?style=flat-square&logo=firefox" alt="Website Backlink"></a>
   <img src="https://img.shields.io/badge/Go-1.22+-00ADD8?style=flat-square&logo=go" alt="Go Version">
   <img src="https://img.shields.io/badge/Chrome-Manifest_V3-4285F4?style=flat-square&logo=googlechrome" alt="Manifest V3">
-  <img src="https://img.shields.io/badge/Platform-Windows_%7C_Linux-0078D6?style=flat-square&logo=windows" alt="Platform">
+  <img src="https://img.shields.io/badge/Platform-Windows_%7C_macOS_%7C_Linux-0078D6?style=flat-square&logo=apple" alt="Platform">
   <img src="https://img.shields.io/badge/Android_TV-7.0--14+-3DDC84?style=flat-square&logo=android" alt="Android TV">
   <img src="https://img.shields.io/badge/ADB-Port_Isolated_5038-FF6F00?style=flat-square" alt="ADB Isolated">
   <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License">
 </p>
 
+<p align="center">
+  <img src="assets/project.gif" alt="ADBCast Android TV Live Demo" width="100%" style="max-width: 850px; border-radius: 8px;">
+</p>
+
+<p align="center">
+  <a href="https://github.com/FatihSahinSEN/adbcast-android-tv/releases/latest/download/ADBCast-Windows-amd64.zip"><img src="https://img.shields.io/badge/Download-Windows_x64_(.zip)-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Download Windows"></a>
+  <a href="https://github.com/FatihSahinSEN/adbcast-android-tv/releases/latest/download/ADBCast-Linux-amd64.tar.gz"><img src="https://img.shields.io/badge/Download-Linux_x64_(.tar.gz)-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Download Linux"></a>
+  <a href="https://github.com/FatihSahinSEN/adbcast-android-tv/releases/latest/download/ADBCast-macOS-arm64.tar.gz"><img src="https://img.shields.io/badge/Download-macOS_Apple_Silicon-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Download macOS ARM64"></a>
+  <a href="https://github.com/FatihSahinSEN/adbcast-android-tv/releases/latest/download/ADBCast-Chrome-Extension.zip"><img src="https://img.shields.io/badge/Download-Chrome_Extension-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Download Extension"></a>
+</p>
+
+### 📦 Latest Pre-built Downloads (GitHub Actions Releases)
+
+| Platform | Download Link | Contents Included |
+| :--- | :--- | :--- |
+| 🪟 **Windows (x64)** | [ADBCast-Windows-amd64.zip](https://github.com/FatihSahinSEN/adbcast-android-tv/releases/latest/download/ADBCast-Windows-amd64.zip) | Go Server Binary, Platform Tools, Windows Service Installers |
+| 🐧 **Linux (x64)** | [ADBCast-Linux-amd64.tar.gz](https://github.com/FatihSahinSEN/adbcast-android-tv/releases/latest/download/ADBCast-Linux-amd64.tar.gz) | Go Server Binary, Platform Tools, Systemd Unit Installer |
+| 🍏 **macOS (M1/M2/M3/M4)** | [ADBCast-macOS-arm64.tar.gz](https://github.com/FatihSahinSEN/adbcast-android-tv/releases/latest/download/ADBCast-macOS-arm64.tar.gz) | Apple Silicon Binary, Launchd Service Installer |
+| 🍏 **macOS (Intel)** | [ADBCast-macOS-intel.tar.gz](https://github.com/FatihSahinSEN/adbcast-android-tv/releases/latest/download/ADBCast-macOS-intel.tar.gz) | Intel Mac Binary, Launchd Service Installer |
+| 🧩 **Chrome Extension** | [ADBCast-Chrome-Extension.zip](https://github.com/FatihSahinSEN/adbcast-android-tv/releases/latest/download/ADBCast-Chrome-Extension.zip) | Manifest V3 Extension Package (Load Unpacked) |
+
+> 🔗 **All Releases**: View all historical releases and changelogs on the [GitHub Releases Page](https://github.com/FatihSahinSEN/adbcast-android-tv/releases).
+
 ---
 
 ## 📌 Project Overview
 
-**ADBCast - AOSP TV Bridge Connector** is a lightweight, high-performance solution that connects your Web Browser directly to any number of **Android TV / AOSP TV** devices across your local network (LAN) using ADB (Android Debug Bridge).
+**ADBCast Android TV** is an open-source automation bridge that enables any web browser to communicate with Android TV and AOSP devices over ADB—without installing any application on the TV.
 
-No third-party Android application installation is required on the TV! The system utilizes native Android Intents, Scoped Storage permissions, and ADB port isolation to instantly stream web pages, YouTube videos, multi-file photo/video media, and automated slideshow loops.
+The project combines a lightweight Go backend with a Chrome Extension, allowing developers, digital signage systems, hotels, kiosks, classrooms, and home automation platforms to remotely control multiple Android TV devices through a simple REST API.
+
+Unlike traditional casting solutions, **ADBCast Android TV** doesn't rely on Chromecast, companion apps, or proprietary SDKs. Everything runs locally over your network using native Android intents and the Android Debug Bridge (ADB).
+
+Whether you need to launch websites, open YouTube videos, display image galleries, broadcast media to multiple TVs, or build your own Android TV management platform, **ADBCast Android TV** provides a fast and extensible foundation for automation.
 
 ---
+
+## Why ADBCast Android TV?
+
+- 📺 No Android application required
+- 📺 No Chromecast dependency
+- 📺 Local network only
+- 📺 Multi-device broadcasting
+- 📺 REST API
+- 📺 Chrome Extension
+- 📺 Cross-platform
+- 📺 Lightweight Go backend
+- 📺 Open Source (MIT)
+- 📺 Easy integration into existing systems
+
+---
+
+## Perfect For
+
+- Hotels
+- Digital Signage
+- Restaurants
+- Retail Stores
+- Airports
+- Schools
+- Meeting Rooms
+- Kiosks
+- Smart Homes
+- IoT Developers
 
 ## ✨ Key Features
 
@@ -92,21 +148,22 @@ Configure target LAN IP subnet blocks (e.g. `192.168.1.`, `10.0.0.`) and Go serv
 
 ---
 
-## 🛒 Chrome Web Store Publishing Guide
+## 🚀 Installation & Setup Guide
 
-The extension source code inside the `extension/` directory is 100% store-ready for submission to the **Chrome Web Store Developer Console**:
+### 📦 Quick Download (Pre-built Binaries)
+Pre-compiled ready-to-run packages for **Windows**, **Linux**, and **macOS** are available on the [GitHub Releases](https://github.com/FatihSahinSEN/adbcast-android-tv/releases) page:
+- 🪟 **Windows (x64)**: `ADBCast-Windows-amd64.zip` *(Includes server binary, ADB tools & Windows Service installers)*
+- 🐧 **Linux (x64)**: `ADBCast-Linux-amd64.tar.gz` *(Includes Linux server binary, ADB tools & Systemd unit)*
+- 🍏 **macOS (Apple Silicon M1/M2/M3/M4 & Intel)**: `ADBCast-macOS-arm64.tar.gz` / `ADBCast-macOS-intel.tar.gz`
+- 🧩 **Chrome Extension**: `ADBCast-Chrome-Extension.zip` *(Unpack & load in `chrome://extensions`)*
 
-1. Select all files inside the `extension/` folder (`manifest.json`, `popup.html`, `popup.js`, `icon.png`, `icon.svg`).
-2. Compress into a single `.zip` file (e.g. `adbcast-extension-v1.1.0.zip`).
-3. Upload to the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole).
-4. **Developer Details**:
-   - **Author**: Fatih Şahin ŞEN
-   - **Email**: [fatihsahinsen@outlook.com](mailto:fatihsahinsen@outlook.com)
-   - **Official Web Site**: [IYC Yazılım - https://www.iyc.com.tr/](https://www.iyc.com.tr/)
+### 🛠️ Official Android Platform Tools (ADB Downloads)
+Download official standalone Android Platform Tools directly from Google:
+- 🍏 **Mac (macOS)**: [platform-tools-latest-darwin.zip](https://dl.google.com/android/repository/platform-tools-latest-darwin.zip)
+- 🐧 **Linux**: [platform-tools-latest-linux.zip](https://dl.google.com/android/repository/platform-tools-latest-linux.zip)
+- 🪟 **Windows**: [platform-tools-latest-windows.zip](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)
 
 ---
-
-## 🚀 Installation & Setup Guide
 
 ### 1. Prerequisites
 - **Go 1.22+** (if building from source).
@@ -119,10 +176,10 @@ The extension source code inside the `extension/` directory is 100% store-ready 
 #### Option A: Quick Start (Binary)
 ```bash
 # Build executable
-go build -v -o adb-connector-server.exe main.go
+go build -v -o adb-connector-server main.go
 
 # Run server
-./adb-connector-server.exe
+./adb-connector-server
 ```
 
 #### Option B: Automated Service Installation (Windows)
@@ -138,6 +195,14 @@ Run terminal command with **root/sudo**:
 chmod +x install-service-linux.sh
 sudo ./install-service-linux.sh
 ```
+
+#### Option D: Automated Service Installation (macOS Launchd Daemon)
+Run Terminal command on macOS:
+```bash
+chmod +x install-service-mac.sh
+./install-service-mac.sh
+```
+*(This registers `com.adbyc.tvbridge` as an automated startup background Launchd daemon on macOS).*
 
 ---
 

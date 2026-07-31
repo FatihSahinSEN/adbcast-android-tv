@@ -1,0 +1,67 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build Multi-Platform Executables
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Build Windows Binary
+        run: |
+          GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o adb-connector-server.exe main.go
+
+      - name: Build Linux Binary
+        run: |
+          GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o adb-connector-server-linux main.go
+
+      - name: Build macOS ARM64 (Apple Silicon M1/M2/M3/M4) Binary
+        run: |
+          GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o adb-connector-server-mac-arm64 main.go
+
+      - name: Build macOS AMD64 (Intel) Binary
+        run: |
+          GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o adb-connector-server-mac-intel main.go
+
+      - name: Package Windows Zip
+        run: |
+          zip -r ADBCast-Windows-amd64.zip adb-connector-server.exe platform-tools-win64 config.json install-service-windows.ps1 install-service-windows.bat uninstall-service-windows.ps1 uninstall-service-windows.bat
+
+      - name: Package Linux Tarball
+        run: |
+          tar -czvf ADBCast-Linux-amd64.tar.gz adb-connector-server-linux config.json install-service-linux.sh uninstall-service-linux.sh tvbridge.service
+
+      - name: Package macOS ARM64 Tarball
+        run: |
+          tar -czvf ADBCast-macOS-arm64.tar.gz adb-connector-server-mac-arm64 config.json install-service-mac.sh uninstall-service-mac.sh
+
+      - name: Package macOS Intel Tarball
+        run: |
+          tar -czvf ADBCast-macOS-intel.tar.gz adb-connector-server-mac-intel config.json install-service-mac.sh uninstall-service-mac.sh
+
+      - name: Package Chrome Extension Zip
+        run: |
+          cd extension && zip -r ../ADBCast-Chrome-Extension.zip manifest.json popup.html popup.js icon.png icon.svg README.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ADBCast-Windows-amd64.zip
+            ADBCast-Linux-amd64.tar.gz
+            ADBCast-macOS-arm64.tar.gz
+            ADBCast-macOS-intel.tar.gz
+            ADBCast-Chrome-Extension.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

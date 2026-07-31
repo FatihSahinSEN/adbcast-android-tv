@@ -816,4 +816,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  const iycWebLink = document.getElementById('iycWebLink');
+  if (iycWebLink) {
+    iycWebLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      chrome.tabs.create({ url: 'https://www.iyc.com.tr/' });
+    });
+  }
 });

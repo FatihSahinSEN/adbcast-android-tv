@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "AxenCast - AOSP TV Bridge Connector",
+  "name": "ADBCast Android TV",
   "version": "1.1.0",
-  "description": "Stream web pages, YouTube videos, multi-file media, and automated slideshow loops directly to Android TV / AOSP devices via local ADB bridge.",
+  "description": "Control multiple Android TV devices from your browser using ADB—no TV app required.",
   "homepage_url": "https://www.iyc.com.tr/",
   "author": {
     "email": "fatihsahinsen@outlook.com"
@@ -17,7 +17,7 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "AxenCast TV Bridge Connector",
+    "default_title": "ADBCast Android TV",
     "default_icon": "icon.png"
   },
   "icons": {

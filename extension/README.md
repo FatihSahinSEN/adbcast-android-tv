@@ -1,10 +1,11 @@
-# ADBCast Chrome Extension - Chrome Web Store Submission Guide
+# ADBCast Android TV Chrome Extension - Chrome Web Store Submission Guide
 
 This directory contains the Chrome Extension Manifest V3 source files ready for submission to the **Chrome Web Store Developer Dashboard**.
 
 ## 📌 Extension Details
 
-- **Extension Name**: ADBCast - AOSP TV Bridge Connector
+- **Extension Name**: ADBCast Android TV
+- **Description**: Control multiple Android TV devices from your browser using ADB—no TV app required.
 - **Version**: 1.1.0
 - **Manifest Version**: 3
 - **Developer / Author**: Fatih Şahin ŞEN ([fatihsahinsen@outlook.com](mailto:fatihsahinsen@outlook.com))

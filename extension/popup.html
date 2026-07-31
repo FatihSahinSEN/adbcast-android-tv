@@ -296,6 +296,25 @@
     }
     .error-msg { color: var(--error-red); font-weight: 600; }
     .success-msg { color: var(--success-green); font-weight: 600; }
+
+    /* Footer Link */
+    .footer-link {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      font-size: 11px;
+    }
+    .footer-link a {
+      color: var(--primary-accent);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }
+    .footer-link a:hover {
+      text-decoration: underline;
+      color: #0369a1;
+    }
   </style>
 </head>
 <body>
@@ -303,8 +322,8 @@
   <!-- Top Header / Connection Status -->
   <div class="header">
     <div class="title-area">
-      <h3>ADB Connector</h3>
-      <span>AOSP TV Bridge</span>
+      <h3>ADBCast</h3>
+      <span>Android TV</span>
     </div>
     <div class="status-badge" id="statusBadge">
       <span class="dot" id="statusDot"></span>
@@ -474,6 +493,11 @@
 
   <!-- Realtime Output Status -->
   <div id="status"></div>
+
+  <!-- Footer Link -->
+  <div class="footer-link">
+    <a href="https://www.iyc.com.tr/" id="iycWebLink" target="_blank" rel="noopener noreferrer">🌐 www.iyc.com.tr</a>
+  </div>
 
   <script src="popup.js"></script>
 </body>

@@ -13,8 +13,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SERVICE_NAME="tvbridge.service"
 
 echo "=========================================="
-echo "  ADB TV Bridge Server - Linux Systemd    "
+echo "  ADBCast Android TV Server - Linux Systemd    "
 echo "=========================================="
+
 
 echo "[*] Creating installation directory: $INSTALL_DIR"
 mkdir -p "$INSTALL_DIR"
@@ -35,7 +36,7 @@ fi
 echo "[*] Creating systemd service file..."
 cat << EOF > /etc/systemd/system/$SERVICE_NAME
 [Unit]
-Description=ADB TV Bridge Connector Server
+Description=ADBCast Android TV Server
 After=network.target network-online.target
 Wants=network-online.target
 

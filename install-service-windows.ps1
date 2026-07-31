@@ -1,4 +1,4 @@
-# ADB TV Bridge Connector - Windows Service Installer (PowerShell)
+# ADBCast Android TV - Windows Service Installer (PowerShell)
 # Requires Administrator Privileges
 
 $ErrorActionPreference = "Stop"
@@ -16,7 +16,7 @@ $WorkingDir = $PSScriptRoot
 $ExePath = Join-Path $WorkingDir "adb-connector-server.exe"
 
 Write-Host "==========================================" -ForegroundColor Cyan
-Write-Host "  ADB TV Bridge Server - Windows Service  " -ForegroundColor Cyan
+Write-Host "  ADBCast Android TV Server - Windows Service  " -ForegroundColor Cyan
 Write-Host "==========================================" -ForegroundColor Cyan
 
 # Check Exe Existence or Build
@@ -56,5 +56,5 @@ Write-Host "[+] Service successfully installed and set to auto-start on Windows 
 Write-Host "[*] Starting service now..." -ForegroundColor Green
 Start-ScheduledTask -TaskName $TaskName
 
-Write-Host "[+] ADB TV Bridge Connector is running in the background." -ForegroundColor Green
+Write-Host "[+] ADBCast Android TV Server is running in the background." -ForegroundColor Green
 Pause
